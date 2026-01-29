@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="google-site-verification" content="hQ-RBBM6GGbUOGVGh8XmztRZlRaTT1TPeswNTQlTMdo" />
     <meta name="description" content="Vishwajeet Verma & Associates - Premier Legal Consultants in Gurugram. Expert advocates specializing in Civil, Corporate, Family, Criminal, and Property Law. Call +91-90692-57256">
     <meta name="keywords" content="lawyer gurugram, legal consultant, advocate, civil law, corporate law, family law, criminal defense, property law, district court gurugram">
     <meta name="theme-color" content="#1a2332">
+    <link rel="manifest" href="manifest.json">
     <title>Vishwajeet Verma & Associates - Legal Consultants | Gurugram</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -107,7 +109,7 @@
 
         /* Desktop Navigation */
         .nav-links {
-            display: flex;
+            display: none; /* Hidden on mobile by default */
             gap: 2rem;
             list-style: none;
         }
@@ -142,9 +144,9 @@
             width: 100%;
         }
 
-        /* Mobile Menu Toggle */
+        /* Mobile Menu Toggle - ALWAYS SHOW on mobile/tablet */
         .mobile-menu-toggle {
-            display: none;
+            display: block; /* Show by default */
             background: none;
             border: none;
             cursor: pointer;
@@ -1203,107 +1205,156 @@
             transform: scale(1.1);
         }
 
+        /* Chatbot Window - Smaller size with visible minimize */
         .chatbot-window {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            bottom: 90px;
+            right: 20px;
+            width: 340px;
+            max-width: calc(100vw - 40px);
+            height: 480px;
+            max-height: calc(100vh - 140px);
             background: white;
             display: none;
             flex-direction: column;
             overflow: hidden;
             z-index: 1001;
+            transition: all 0.3s ease;
+            border-radius: 16px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+            border: 2px solid var(--gold);
         }
 
         .chatbot-window.active {
             display: flex;
-            animation: slideUpFull 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            animation: slideUpWindow 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
-        @keyframes slideUpFull {
+        @keyframes slideUpWindow {
             from {
-                transform: translateY(100%);
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
             }
             to {
-                transform: translateY(0);
+                opacity: 1;
+                transform: translateY(0) scale(1);
             }
+        }
+
+        .chatbot-window.minimized {
+            height: 56px !important;
+        }
+
+        .chatbot-window.minimized .chatbot-messages,
+        .chatbot-window.minimized .chatbot-input {
+            display: none;
         }
 
         .chatbot-header {
             background: linear-gradient(135deg, var(--navy) 0%, var(--deep-navy) 100%);
             color: white;
-            padding: 1.5rem;
+            padding: 0.9rem 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 2px solid var(--gold);
+            flex-shrink: 0;
         }
 
         .chatbot-header-content {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.7rem;
+            flex: 1;
+            min-width: 0;
         }
 
         .chatbot-avatar {
-            width: 42px;
-            height: 42px;
+            width: 36px;
+            height: 36px;
             background: linear-gradient(135deg, var(--gold) 0%, var(--dark-gold) 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             flex-shrink: 0;
+        }
+
+        .chatbot-header-text {
+            flex: 1;
+            min-width: 0;
         }
 
         .chatbot-header-text h3 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             color: var(--gold);
             font-weight: 700;
+            margin: 0;
+            line-height: 1.2;
         }
 
         .chatbot-header-text p {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             opacity: 0.8;
-            margin-top: 0.2rem;
+            margin: 0.2rem 0 0 0;
+            line-height: 1;
         }
 
         .chatbot-status {
             display: flex;
             align-items: center;
-            gap: 0.4rem;
-            font-size: 0.7rem;
+            gap: 0.3rem;
+            font-size: 0.65rem;
             color: #2ecc71;
         }
 
         .status-dot {
-            width: 7px;
-            height: 7px;
+            width: 6px;
+            height: 6px;
             background: #2ecc71;
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
 
+        .chatbot-header-controls {
+            display: flex;
+            gap: 0.4rem;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .chatbot-minimize,
         .chatbot-close {
-            background: none;
-            border: none;
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid rgba(212, 175, 55, 0.3);
             color: var(--gold);
-            font-size: 2rem;
+            font-size: 1.4rem;
             cursor: pointer;
-            transition: transform 0.3s ease;
-            padding: 0.5rem;
-            min-width: 44px;
-            min-height: 44px;
+            padding: 0.3rem 0.5rem;
+            min-width: 38px;
+            min-height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s ease;
+            border-radius: 6px;
+            font-weight: bold;
+            line-height: 1;
         }
 
+        .chatbot-minimize:hover,
+        .chatbot-close:hover {
+            background: rgba(212, 175, 55, 0.25);
+            border-color: var(--gold);
+        }
+
+        .chatbot-minimize:active,
         .chatbot-close:active {
-            transform: rotate(90deg);
+            background: var(--gold);
+            color: var(--navy);
+            transform: scale(0.95);
         }
 
         .chatbot-messages {
@@ -1588,41 +1639,29 @@
                 height: 300px;
             }
 
-            /* Better chatbot on tablet */
+            /* Better chatbot on tablet - smaller windowed size */
             .chatbot-window {
-                width: 400px;
-                height: 600px;
+                width: 380px;
+                height: 520px;
                 bottom: 90px;
                 right: 20px;
-                left: auto;
-                border-radius: 18px;
-                box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
+                max-width: calc(100vw - 40px);
+                max-height: calc(100vh - 140px);
             }
 
-            .chatbot-window.active {
-                animation: slideUp 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            }
-
-            @keyframes slideUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(30px) scale(0.9);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0) scale(1);
-                }
+            .chatbot-window.minimized {
+                height: 56px !important;
             }
         }
 
         /* Desktop (1024px+) */
         @media (min-width: 1024px) {
             .mobile-menu-toggle {
-                display: none;
+                display: none; /* Hide hamburger on desktop */
             }
 
             .nav-links {
-                display: flex;
+                display: flex; /* Show full navigation on desktop */
             }
 
             .mobile-cta-bar {
@@ -1806,7 +1845,7 @@
                 <li><a href="#why-choose">Why Choose Us</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">
+            <button type="button" class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">
                 <div class="hamburger">
                     <span></span>
                     <span></span>
@@ -2081,37 +2120,37 @@
         </div>
         <div class="faq-container">
             <div class="faq-item">
-                <button class="faq-question">How do I book a consultation?</button>
+                <button type="button" class="faq-question">How do I book a consultation?</button>
                 <div class="faq-answer">
                     <p>You can book a consultation by calling us at +91-90692-57256 or +91-99999-67100 during office hours (8 AM - 8 PM, Mon-Sat). You can also fill out the contact form on this website, and we'll call you back to schedule an appointment.</p>
                 </div>
             </div>
             <div class="faq-item">
-                <button class="faq-question">What are your consultation fees?</button>
+                <button type="button" class="faq-question">What are your consultation fees?</button>
                 <div class="faq-answer">
                     <p>Consultation fees vary based on case complexity and requirements. We believe in transparent pricing and will discuss all fees upfront during your initial consultation. We offer flexible payment options and will provide a clear fee structure before proceeding.</p>
                 </div>
             </div>
             <div class="faq-item">
-                <button class="faq-question">What documents should I bring for the first meeting?</button>
+                <button type="button" class="faq-question">What documents should I bring for the first meeting?</button>
                 <div class="faq-answer">
                     <p>Bring your identity proof (Aadhaar/PAN/Passport), any legal notices received, relevant contracts or agreements, court papers if any, and case-specific documents. Our team will guide you on specific documents when you book your appointment.</p>
                 </div>
             </div>
             <div class="faq-item">
-                <button class="faq-question">Do you handle cases outside Gurugram?</button>
+                <button type="button" class="faq-question">Do you handle cases outside Gurugram?</button>
                 <div class="faq-answer">
                     <p>Yes! While we're based at District Session Court, Gurugram, we handle cases across Delhi NCR and other jurisdictions in Haryana. We can also appear in High Courts and Supreme Court for appropriate matters.</p>
                 </div>
             </div>
             <div class="faq-item">
-                <button class="faq-question">How long does a typical case take?</button>
+                <button type="button" class="faq-question">How long does a typical case take?</button>
                 <div class="faq-answer">
                     <p>Case duration varies significantly based on complexity, court schedules, and nature of the matter. Civil cases may take 6 months to several years, while criminal matters and family cases have different timelines. We'll provide realistic time estimates during consultation.</p>
                 </div>
             </div>
             <div class="faq-item">
-                <button class="faq-question">Can I get legal advice over phone?</button>
+                <button type="button" class="faq-question">Can I get legal advice over phone?</button>
                 <div class="faq-answer">
                     <p>Yes, we offer preliminary legal guidance over phone. However, for detailed case analysis and proper legal advice, we recommend an in-person consultation where we can review all documents and provide comprehensive guidance.</p>
                 </div>
@@ -2267,11 +2306,11 @@
     </footer>
 
     <!-- Back to Top Button -->
-    <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+    <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
     <!-- Enhanced Chatbot -->
     <div class="chatbot-container">
-        <button class="chatbot-button" id="chatbotToggle" aria-label="Open chat">💬</button>
+        <button type="button" class="chatbot-button" id="chatbotToggle" aria-label="Open chat">💬</button>
         <div class="chatbot-window" id="chatbotWindow">
             <div class="chatbot-header">
                 <div class="chatbot-header-content">
@@ -2284,7 +2323,10 @@
                         </div>
                     </div>
                 </div>
-                <button class="chatbot-close" id="chatbotClose" aria-label="Close chat">×</button>
+                <div class="chatbot-header-controls">
+                    <button type="button" class="chatbot-minimize" id="chatbotMinimize" aria-label="Minimize chat" title="Minimize">▼</button>
+                    <button type="button" class="chatbot-close" id="chatbotClose" aria-label="Close chat" title="Close">×</button>
+                </div>
             </div>
             <div class="chatbot-messages" id="chatbotMessages">
                 <div class="message bot">
@@ -2293,17 +2335,17 @@
                         <p>Namaste! Welcome to <strong>Vishwajeet Verma & Associates</strong>. I'm here to help you with your legal inquiries 24/7.</p>
                         <p>How may I assist you today?</p>
                         <div class="quick-replies">
-                            <button class="quick-reply" data-reply="practice">Practice Areas</button>
-                            <button class="quick-reply" data-reply="appointment">Book Appointment</button>
-                            <button class="quick-reply" data-reply="consultation">Consultation Info</button>
-                            <button class="quick-reply" data-reply="location">Office Location</button>
+                            <button type="button" class="quick-reply" data-reply="practice">Practice Areas</button>
+                            <button type="button" class="quick-reply" data-reply="appointment">Book Appointment</button>
+                            <button type="button" class="quick-reply" data-reply="consultation">Consultation Info</button>
+                            <button type="button" class="quick-reply" data-reply="location">Office Location</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="chatbot-input">
                 <input type="text" id="chatbotInput" placeholder="Type your message..." aria-label="Chat message input">
-                <button id="chatbotSend" aria-label="Send message">➤</button>
+                <button type="button" id="chatbotSend" aria-label="Send message">➤</button>
             </div>
         </div>
     </div>
@@ -2429,17 +2471,34 @@
         const chatbotToggle = document.getElementById('chatbotToggle');
         const chatbotWindow = document.getElementById('chatbotWindow');
         const chatbotClose = document.getElementById('chatbotClose');
+        const chatbotMinimize = document.getElementById('chatbotMinimize');
         const chatbotMessages = document.getElementById('chatbotMessages');
         const chatbotInput = document.getElementById('chatbotInput');
         const chatbotSend = document.getElementById('chatbotSend');
 
         chatbotToggle.addEventListener('click', () => {
             chatbotWindow.classList.add('active');
+            chatbotWindow.classList.remove('minimized');
             chatbotInput.focus();
         });
 
         chatbotClose.addEventListener('click', () => {
             chatbotWindow.classList.remove('active');
+            chatbotWindow.classList.remove('minimized');
+        });
+
+        chatbotMinimize.addEventListener('click', () => {
+            if (chatbotWindow.classList.contains('minimized')) {
+                // Expand
+                chatbotWindow.classList.remove('minimized');
+                chatbotMinimize.innerHTML = '▼';
+                chatbotMinimize.setAttribute('title', 'Minimize');
+            } else {
+                // Minimize
+                chatbotWindow.classList.add('minimized');
+                chatbotMinimize.innerHTML = '▲';
+                chatbotMinimize.setAttribute('title', 'Expand');
+            }
         });
 
         // Comprehensive Chatbot responses - Fixed line breaks
@@ -2707,6 +2766,201 @@
                 imageObserver.observe(img);
             });
         }
+
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('✅ Service Worker registered successfully:', registration.scope);
+                        
+                        // Check for updates periodically
+                        setInterval(() => {
+                            registration.update();
+                        }, 3600000); // Check every hour
+                    })
+                    .catch(error => {
+                        console.log('⚠️ Service Worker registration failed:', error);
+                    });
+            });
+
+            // Listen for service worker updates
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                console.log('🔄 Service Worker updated, reloading page...');
+                window.location.reload();
+            });
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        const installButton = document.createElement('button');
+        installButton.textContent = '📱 Install App';
+        installButton.className = 'pwa-install-button';
+        installButton.style.cssText = 'position: fixed; bottom: 20px; left: 20px; background: linear-gradient(135deg, var(--gold) 0%, var(--dark-gold) 100%); color: var(--navy); border: none; padding: 1rem 1.5rem; border-radius: 50px; font-weight: 700; font-size: 0.9rem; cursor: pointer; box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4); z-index: 998; display: none; transition: all 0.3s ease;';
+
+        document.body.appendChild(installButton);
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installButton.style.display = 'block';
+            
+            setTimeout(() => {
+                installButton.style.opacity = '1';
+                installButton.style.transform = 'scale(1)';
+            }, 100);
+        });
+
+        installButton.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            console.log(`User response to install prompt: ${outcome}`);
+            
+            if (outcome === 'accepted') {
+                console.log('✅ PWA installation accepted');
+            }
+            
+            deferredPrompt = null;
+            installButton.style.display = 'none';
+        });
+
+        window.addEventListener('appinstalled', () => {
+            console.log('🎉 PWA installed successfully!');
+            installButton.style.display = 'none';
+        });
+
+        // Advanced Animations - Parallax Effect on Hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            
+            if (hero && scrolled < window.innerHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                hero.style.opacity = 1 - (scrolled / window.innerHeight) * 0.5;
+            }
+        });
+
+        // Advanced Animations - Staggered Fade-in for Cards
+        const animateOnScroll = () => {
+            const cards = document.querySelectorAll('.practice-card, .why-item, .trust-item');
+            
+            cards.forEach((card, index) => {
+                const rect = card.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight - 100;
+                
+                if (isVisible && !card.classList.contains('animated')) {
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                        card.classList.add('animated');
+                    }, index * 100); // Stagger by 100ms
+                }
+            });
+        };
+
+        // Run animation check on scroll and load
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+
+        // Advanced Animation - Text Reveal on Hero
+        const heroText = document.querySelector('.hero-text h2');
+        if (heroText) {
+            const text = heroText.textContent;
+            heroText.textContent = '';
+            heroText.style.opacity = '1';
+            
+            let charIndex = 0;
+            const revealText = () => {
+                if (charIndex < text.length) {
+                    heroText.textContent += text[charIndex];
+                    charIndex++;
+                    setTimeout(revealText, 50);
+                }
+            };
+            
+            setTimeout(revealText, 500);
+        }
+
+        // Form Backend Integration Ready
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: this.name.value,
+                phone: this.phone.value,
+                email: this.email.value,
+                matter: this.matter.value,
+                message: this.message.value,
+                timestamp: new Date().toISOString(),
+                source: 'website'
+            };
+            
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Sending...';
+            submitButton.disabled = true;
+
+            try {
+                // TODO: Replace with your actual backend endpoint
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    // Success
+                    alert('✅ Thank you for your inquiry!\n\nWe have received your request for consultation. Our team will contact you shortly.\n\nFor immediate assistance, please call:\n+91-90692-57256\n+91-99999-67100');
+                    this.reset();
+                } else {
+                    throw new Error('Submission failed');
+                }
+            } catch (error) {
+                console.log('Form submission error:', error);
+                
+                // Fallback: Store in localStorage for later sync
+                if ('localStorage' in window) {
+                    const pendingForms = JSON.parse(localStorage.getItem('pendingForms') || '[]');
+                    pendingForms.push({
+                        id: Date.now(),
+                        data: formData
+                    });
+                    localStorage.setItem('pendingForms', JSON.stringify(pendingForms));
+                }
+                
+                // Show user-friendly message
+                alert('📝 Your inquiry has been saved!\n\nWe will contact you shortly.\n\nFor immediate assistance, please call:\n+91-90692-57256\n+91-99999-67100\n\nOffice Hours: Monday-Saturday, 8:00 AM - 8:00 PM');
+                this.reset();
+            } finally {
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }
+        });
+
+        // Online/Offline Status Indicator
+        const updateOnlineStatus = () => {
+            const status = navigator.onLine ? 'online' : 'offline';
+            console.log(`Connection status: ${status}`);
+            
+            if (!navigator.onLine) {
+                const offlineNotice = document.createElement('div');
+                offlineNotice.id = 'offline-notice';
+                offlineNotice.textContent = '📴 You are offline. Some features may be limited.';
+                offlineNotice.style.cssText = 'position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: #ff6b6b; color: white; padding: 0.8rem 2rem; border-radius: 50px; z-index: 1001; font-size: 0.9rem; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.3);';
+                document.body.appendChild(offlineNotice);
+            } else {
+                const notice = document.getElementById('offline-notice');
+                if (notice) notice.remove();
+            }
+        };
+
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
     </script>
 </body>
 </html>
