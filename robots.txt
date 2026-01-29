@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vishwajeetvermaandassociates.netlify.app/sitemap.xml
